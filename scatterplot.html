@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<style>
+    .axis line, .axis path {
+        stroke: #000;
+    }
+    .axis path {
+        fill: none; /* Unbloats axes. */
+    }
+    .axis {
+        shape-rendering: crispEdges; /* Even thinner axes. */
+    }
+</style>
+<script src="../lib/d3.js"></script>
+<script src="scatterplot.js"></script>
+<script>
+
+ // Wait until the browser has created a body element for us.
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var gpa, tvHoursPerWeek;
+
+     // Example data were taken from http://www.nvcc.edu/home/elanthier/methods/correlation.htm.
+        gpa = [3.1, 2.4, 2.0, 3.8, 2.2, 3.4, 2.9, 3.2, 3.7, 3.5];
+        tvHoursPerWeek = [14, 10, 20, 7, 25, 9, 15, 13, 4, 21];
+
+     // Draw scatterplot.
+        scatterplot(gpa, tvHoursPerWeek);
+
+    });
+
+</script>
