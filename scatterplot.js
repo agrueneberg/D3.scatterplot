@@ -81,7 +81,7 @@
         xMax += (xMax - xMin) * canvasPadding.right;
         xScale = d3.scale.linear()
                    .domain([xMin, xMax])
-                   .range([xAxisPadding, width]);
+                   .range([yAxisPadding, width]);
 
      // Create padded scale for the y axis.
         yMin = d3.min(y);
@@ -90,7 +90,7 @@
         yMax += (yMax - yMin) * canvasPadding.top;
         yScale = d3.scale.linear()
                    .domain([yMin, yMax])
-                   .range([height - yAxisPadding, 0]);
+                   .range([height - xAxisPadding, 0]);
 
      // Create x axis.
         xAxis = d3.svg.axis()
