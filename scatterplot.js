@@ -7,12 +7,16 @@
  // @param {[number]} x
  // @param {[number]} y
  // @param {object} options
- // @param {[number]} options.margin top, right, button, left margins.
+ // @param {object} options.padding
+ // @param {number} options.padding.top
+ // @param {number} options.padding.right
+ // @param {number} options.padding.bottom
+ // @param {number} options.padding.left
  // @param {number} options.width Width of the SVG element.
  // @param {number} options.height Height of the SVG element.
     exports.scatterplot = function (x, y, options) {
 
-        var distribution, margin, width, height, xScale, yScale, svg, xAxis, yAxis;
+        var distribution, width, height, padding, xMin, xMax, yMin, yMax, xScale, yScale, svg;
 
      // Check if dimensions of both variables match.
         if (x.length !== y.length) {
@@ -27,47 +31,38 @@
 
      // Evaluate options and set defaults.
         options = options || {};
-        margin = options.margin || [10, 20, 40, 40];
         width = options.width || 300;
         height = options.height || 300;
+        padding = options.padding || {
+            left: 0.1,
+            right: 0.1,
+            top: 0.1,
+            bottom: 0.1
+        };
 
-     // Create padded scale for x axis.
+     // Create padded scale for the x axis.
+        xMin = d3.min(x);
+        xMax = d3.max(x);
+        xMin -= (xMax - xMin) * padding.left;
+        xMax += (xMax - xMin) * padding.right;
         xScale = d3.scale.linear()
-              .domain([d3.min(x), d3.max(x)])
-              .range([margin[3], width - margin[1]]);
+                   .domain([xMin, xMax])
+                   .range([0, width]);
 
-     // Create padded scale for y axis.
+     // Create padded scale for the y axis.
+        yMin = d3.min(y);
+        yMax = d3.max(y);
+        yMin -= (yMax - yMin) * padding.bottom;
+        yMax += (yMax - yMin) * padding.top;
         yScale = d3.scale.linear()
-              .domain([d3.min(y), d3.max(y)])
-              .range([height - margin[2], margin[0]]);
+                   .domain([yMin, yMax])
+                   .range([height, 0]);
 
      // Set up the SVG element.
         svg = d3.select("body")
                 .append("svg:svg")
                 .attr("width", width)
                 .attr("height", height);
-
-     // Create an axis helper for the x axis.
-        xAxis = d3.svg.axis()
-                  .scale(xScale)
-
-     // Generate x axis.
-        svg.append("svg:g")
-           .attr("class", "x axis")
-           .attr("transform", "translate(0, " + (height - margin[2]) + ")")
-           .call(xAxis);
-
-     // Create an axis helper for the y axis.
-        yAxis = d3.svg.axis()
-                  .scale(yScale)
-                // Flip axis.
-                  .orient("left");
-
-     // Generate y axis.
-        svg.append("svg:g")
-           .attr("class", "y axis")
-           .attr("transform", "translate(" + margin[3] + ", 0)")
-           .call(yAxis);
 
      // Generate and append circles.
         svg.append("svg:g")
