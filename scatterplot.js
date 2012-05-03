@@ -14,7 +14,6 @@
  // @param {number} options.canvas.padding.bottom
  // @param {number} options.canvas.padding.left
  // @param {object} options.axes
- // @param {object} options.axes.padding
  // @param {object} options.axes.x
  // @param {number} options.axes.x.padding
  // @param {number} options.axes.x.ticks
