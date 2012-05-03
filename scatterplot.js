@@ -7,6 +7,9 @@
  // @param {[number]} x
  // @param {[number]} y
  // @param {object} options
+ // @param {DOMElement} options.parentElement The parent element of the SVG element.
+ // @param {number} options.width Width of the SVG element.
+ // @param {number} options.height Height of the SVG element.
  // @param {object} options.canvas
  // @param {object} options.canvas.padding
  // @param {number} options.canvas.padding.top
@@ -20,8 +23,6 @@
  // @param {object} options.axes.y
  // @param {number} options.axes.y.padding
  // @param {number} options.axes.y.ticks
- // @param {number} options.width Width of the SVG element.
- // @param {number} options.height Height of the SVG element.
     exports.scatterplot = function (x, y, options) {
 
         var distribution, width, height, canvasPadding, xAxisPadding, xAxisTicks, yAxisPadding, yAxisTicks,
@@ -40,6 +41,7 @@
 
      // Evaluate options and set defaults.
         options = options || {};
+        parentElement = options.parentElement || document.body;
         width = options.width || 300;
         height = options.height || 300;
         if (options.hasOwnProperty("canvas") && options.canvas.padding) {
@@ -106,7 +108,7 @@
                       .tickSize(5, 0);
 
      // Set up the SVG element.
-        svg = d3.select("body")
+        svg = d3.select(parentElement)
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height);
