@@ -71,6 +71,7 @@
            .data(distribution)
            .enter()
            .append("circle")
+           .attr("class", "point")
            .attr("cx", function (d) {
                return xScale(d[0]);
             })
