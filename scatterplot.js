@@ -6,8 +6,8 @@
 
     exports.scatterplot = function () {
 
-        var scatterplot, width, height, padding, xAxisPadding, xAxisTicks,
-            yAxisPadding, yAxisTicks, xScale, yScale, xAxis, yAxis;
+        var scatterplot, width, height, padding, xScale, yScale, xAxisPadding,
+            xAxisTicks, xAxis, yAxisPadding, yAxisTicks, yAxis;
 
         width = 300;
         height = 300;
@@ -18,10 +18,11 @@
             "left": 0.1
         };
 
+        xScale = d3.scale.linear();
+        yScale = d3.scale.linear();
+
         xAxisPadding = 25;
         xAxisTicks = width / 75;
-        xScale = d3.scale.linear();
-
         xAxis = d3.svg.axis()
                   .scale(xScale)
                   .orient("bottom")
@@ -30,8 +31,6 @@
 
         yAxisPadding = 25;
         yAxisTicks = height / 75;
-        yScale = d3.scale.linear();
-
         yAxis = d3.svg.axis()
                   .scale(yScale)
                   .orient("left")
@@ -42,7 +41,7 @@
 
             selection.each(function (data) {
 
-                var xMin, xMax, yMin, yMax, svg, enter, group;
+                var xMin, xMax, yMin, yMax, svg;
 
              // Update padded x scale.
                 xMin = d3.min(data, function (d) {
