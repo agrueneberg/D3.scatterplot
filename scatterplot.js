@@ -93,7 +93,7 @@
                    .attr("transform", "translate(" + yAxisPadding + ",0)")
                    .call(yAxis);
 
-             // Create circles.
+             // Generate circles.
                 svg.append("g")
                    .selectAll("circle")
                    .data(data)
