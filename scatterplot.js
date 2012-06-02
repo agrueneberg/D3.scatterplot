@@ -114,6 +114,9 @@
                        })
                       .attr("r", 3);
 
+                points.exit()
+                      .remove();
+
             });
 
         };
