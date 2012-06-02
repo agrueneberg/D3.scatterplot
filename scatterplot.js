@@ -41,7 +41,7 @@
 
             selection.each(function (data) {
 
-                var xMin, xMax, yMin, yMax, svg;
+                var xMin, xMax, yMin, yMax, svg, template, points;
 
              // Update padded x scale.
                 xMin = d3.min(data, function (d) {
@@ -67,45 +67,52 @@
                 yScale.domain([yMin, yMax])
                       .range([height - xAxisPadding, 0]);
 
-             // Select existing SVG elements.
+             // Generate canvas.
                 svg = d3.select(this)
                         .selectAll("svg")
-                        .data([data]) // Trick to create only one svg element for each data set.
+                        .data([data]);
 
-             // Create non-existing SVG elements.
-                svg.enter()
-                   .append("svg");
+             // Generate chart template.
+                template = svg.enter()
+                              .append("svg");
+                template.append("g")
+                        .attr("id", "circles");
+                template.append("g")
+                        .attr("id", "xAxis")
+                        .classed("axis", true);
+                template.append("g")
+                        .attr("id", "yAxis")
+                        .classed("axis", true);
 
-             // Update both existing and newly created SVG elements.
+             // Update dimensions.
                 svg.attr("width", width)
                    .attr("height", height);
 
              // Generate x axis.
-                svg.append("g")
-                   .attr("class", "axis")
+                svg.select("g#xAxis")
                    .attr("transform", "translate(0," + (height - xAxisPadding) + ")")
                    .call(xAxis);
 
              // Generate y axis.
-                svg.append("g")
-                   .attr("class", "axis")
+                svg.select("g#yAxis")
                    .attr("transform", "translate(" + yAxisPadding + ",0)")
                    .call(yAxis);
 
              // Generate circles.
-                svg.append("g")
-                   .selectAll("circle")
-                   .data(data)
-                   .enter()
-                   .append("circle")
-                   .attr("class", "point")
-                   .attr("cx", function (d) {
-                       return xScale(d[0]);
-                    })
-                   .attr("cy", function (d) {
-                       return yScale(d[1]);
-                    })
-                   .attr("r", 3);
+                points = svg.select("g#circles")
+                            .selectAll("circle")
+                            .data(data);
+
+                points.enter()
+                      .append("circle")
+                      .attr("class", "point")
+                      .attr("cx", function (d) {
+                          return xScale(d[0]);
+                       })
+                      .attr("cy", function (d) {
+                          return yScale(d[1]);
+                       })
+                      .attr("r", 3);
 
             });
 
